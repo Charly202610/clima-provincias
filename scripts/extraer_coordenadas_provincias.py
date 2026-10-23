@@ -16,5 +16,15 @@ for p in datos:
     })
 
 df_provincias = pd.DataFrame(provincias)
+
+# ---- CAMBIO AGREGADO: corrección de coordenadas de Tierra del Fuego ----
+# La API georef calcula el centroide de la provincia incluyendo el sector antártico,
+# y devuelve un punto en la Antártida (lat -82.52, lon -50.74). Eso hacía que Open-Meteo
+# trajera clima antártico (-12 a -30 °C). Se reemplaza por las coordenadas de Ushuaia.
+mascara_tdf = df_provincias["provincia"].str.contains("Tierra del Fuego", na=False)
+df_provincias.loc[mascara_tdf, "lat"] = -54.80
+df_provincias.loc[mascara_tdf, "lon"] = -68.30
+# ---- FIN DEL CAMBIO ----
+
 df_provincias.to_csv("datos_crudos/provincias_coordenadas.csv", index=False)
 print(df_provincias)
