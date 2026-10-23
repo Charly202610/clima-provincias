@@ -14,7 +14,7 @@ promedios_mensuales = df.groupby(["provincia", "anio", "mes"]).agg(
     viento_promedio=("wind_speed_10m_max", "mean")
 ).reset_index()
 
-promedios_mensuales.to_csv("datos_procesados/clima_mensual_provincias.csv", index=False)
+promedios_mensuales.round(2).to_csv("datos_procesados/clima_mensual_provincias.csv", index=False)
 
 # Promedios anuales por provincia
 promedios_anuales = df.groupby(["provincia", "anio"]).agg(
@@ -23,6 +23,6 @@ promedios_anuales = df.groupby(["provincia", "anio"]).agg(
     viento_promedio=("wind_speed_10m_max", "mean")
 ).reset_index()
 
-promedios_anuales.to_csv("datos_procesados/clima_anual_provincias.csv", index=False)
+promedios_anuales.round(2).to_csv("datos_procesados/clima_anual_provincias.csv", index=False)
 
 print("Listo, archivos mensual y anual guardados.")
